@@ -5,8 +5,8 @@
 		Plugin URI: https://github.com/Hube2/contact-form-7-dynamic-select-extension
 		Description: Provides a dynamic select field that accepts any shortcode to generate the select values. Requires Contact Form 7
 		Version: 2.0.1
-		Author: John A. Huebner II
-		Author URI: https://github.com/Hube2/
+		Author: John A. Huebner II, Patrick Niemann
+		Author URI: https://github.com/Hube2/, https://github.com/panic175
 		License: GPL
 	*/
 	
@@ -183,27 +183,7 @@
 			?>
 				<span class="wpcf7-form-control-wrap <?php echo $name; ?>">
 					<select <?php echo trim($atts); ?>>
-						<?php 
-							foreach ($field_options as $option_label => $option_value) {
-								$option_value =  esc_attr($option_value);
-								$option_label = esc_attr($option_label);
-								?>
-									<option value="<?php echo $option_value; ?>"<?php 
-												if (!$use_default) {
-													if (!is_array($value) && $value == $option_value) {
-														echo ' selected="selected"';
-													} elseif (is_array($value) && in_array($option_value, $value)) {
-														echo ' selected="selected"';
-													}
-												} else {
-													if (in_array($option_value, $default)) {
-														echo ' selected="selected"';
-													}
-												}
-											?>><?php echo $option_label; ?></option>
-								<?php 
-							} // end foreach field value
-						?>
+						<?php $this->parse_field_options($field_options); ?>
 					</select>
 					<?php echo $validation_error; ?>
 				</span>
@@ -211,6 +191,51 @@
 			$html = ob_get_clean();
 			return $html;
 		} // end public function shortcode_handler
+
+
+		public function parse_field_options($field_options, $value, $default) {
+			foreach ($field_options as $option_id => $option) {
+				if (!is_array($option)) continue;
+				$option['label'] = balanceTags($option['label'], true);
+
+				switch ($option['type']) {
+
+					case 'option':
+						$option['value'] = esc_attr($option['value']);
+
+
+						echo '<option value="'.$option['value'].'"';
+						if (!$use_default && $value !== "undefined") {
+							if (!is_array($value) && $value == $option['value']) {
+								echo ' selected="selected"';
+							} elseif (is_array($value) && in_array($option['value'], $value)) {
+								echo ' selected="selected"';
+							}
+						} elseif ($default !== "undefined") {
+							if (in_array($option['value'], $default)) {
+								echo ' selected="selected"';
+							}
+						}
+						echo ">";
+						echo $option['label'];
+						echo "</option>\n";
+						break;
+
+					case 'optgroup':
+						$option['disabled'] = ($option['disabled'] ? true : false);
+						echo '<optgroup label="'.$option['label'].'"';
+						if ($option['disabled']) {
+							echo ' disabled="disabled"';
+						}
+						echo ">\n";
+						$this->parse_field_options($option['options'], $value, $default);
+						echo "</optgroup>\n";
+						break;
+				}
+
+			} // end foreach field value
+
+		} // end public function parse_field_options
 		
 		public function validation_filter($result, $tag) {
 			// valiedates field on submit
