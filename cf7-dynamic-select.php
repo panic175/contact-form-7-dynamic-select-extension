@@ -202,6 +202,7 @@
 
 					case 'option':
 						$option['value'] = esc_attr($option['value']);
+						$option['disabled'] = ($option['disabled'] ? true : false);
 
 
 						echo '<option value="'.$option['value'].'"';
@@ -215,6 +216,9 @@
 							if (in_array($option['value'], $default)) {
 								echo ' selected="selected"';
 							}
+						}
+						if ($option['disabled']) {
+							echo ' disabled="disabled"';
 						}
 						echo ">";
 						echo $option['label'];
