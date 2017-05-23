@@ -184,7 +184,7 @@
 			?>
 				<span class="wpcf7-form-control-wrap <?php echo $name; ?>">
 					<select <?php echo trim($atts); ?>>
-						<?php $this->parse_field_options($field_options); ?>
+						<?php $this->parse_field_options($field_options, $value, $default); ?>
 					</select>
 					<?php echo $validation_error; ?>
 				</span>
