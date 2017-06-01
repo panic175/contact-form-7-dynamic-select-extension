@@ -183,7 +183,7 @@
 			?>
 				<span class="wpcf7-form-control-wrap <?php echo $name; ?>">
 					<select <?php echo trim($atts); ?>>
-						<?php $this->parse_field_options($field_options, $value, $default); ?>
+						<?php $this->parse_field_options($field_options, $value, $default, $use_default); ?>
 					</select>
 					<?php echo $validation_error; ?>
 				</span>
@@ -193,7 +193,7 @@
 		} // end public function shortcode_handler
 
 
-		public function parse_field_options($field_options, $value, $default) {
+		public function parse_field_options($field_options, $value, $default, $use_default = false) {
 			foreach ($field_options as $option_id => $option) {
 				if (!is_array($option)) continue;
 				$option['label'] = balanceTags($option['label'], true);
@@ -202,7 +202,7 @@
 
 					case 'option':
 						$option['value'] = esc_attr($option['value']);
-						$option['disabled'] = ($option['disabled'] ? true : false);
+						$option['disabled'] = (array_key_exists('disabled', $option) ? $option['disabled'] : false);
 
 
 						echo '<option value="'.$option['value'].'"';
@@ -226,13 +226,13 @@
 						break;
 
 					case 'optgroup':
-						$option['disabled'] = ($option['disabled'] ? true : false);
+						$option['disabled'] = (array_key_exists('disabled', $option) ? $option['disabled'] : false);
 						echo '<optgroup label="'.$option['label'].'"';
 						if ($option['disabled']) {
 							echo ' disabled="disabled"';
 						}
 						echo ">\n";
-						$this->parse_field_options($option['options'], $value, $default);
+						$this->parse_field_options($option['options'], $value, $default, $use_default);
 						echo "</optgroup>\n";
 						break;
 				}
