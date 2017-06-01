@@ -1,14 +1,15 @@
 <?php 
-
-	/*
-		Plugin Name: Dynamic Select for Contact Form 7
-		Plugin URI: https://github.com/Hube2/contact-form-7-dynamic-select-extension
-		Description: Provides a dynamic select field that accepts any shortcode to generate the select values. Requires Contact Form 7
-		Version: 2.0.1
-		Author: John A. Huebner II, Patrick Niemann
-		Author URI: https://github.com/Hube2/, https://github.com/panic175
-		License: GPL
-	*/
+/**
+ * Plugin Name: Dynamic Select for Contact Form 7 (forked by PaNic175)
+ * Plugin URI: https://github.com/panic175/contact-form-7-dynamic-select-extension
+ * Description: Provides a dynamic select field that accepts any shortcode to generate the select values. Requires Contact Form 7
+ * Version: 3.1.2
+ * Author: John A. Huebner II, Patrick Niemann
+ * Author URI: https://github.com/Hube2/, https://github.com/panic175
+ * License: GPL
+ * GitHub Plugin URI: panic175/contact-form-7-dynamic-select-extension
+ * GitHub Branch: master
+ */
 	
 	// If this file is called directly, abort.
 	if (!defined('WPINC')) { die; }
