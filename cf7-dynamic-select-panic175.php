@@ -3,7 +3,7 @@
  * Plugin Name: Dynamic Select for Contact Form 7 (forked by PaNic175)
  * Plugin URI: https://github.com/panic175/contact-form-7-dynamic-select-extension
  * Description: Provides a dynamic select field that accepts any shortcode to generate the select values. Requires Contact Form 7
- * Version: 3.1.2
+ * Version: 3.1.3
  * Author: John A. Huebner II, Patrick Niemann
  * Author URI: https://github.com/Hube2/, https://github.com/panic175
  * License: GPL
@@ -48,8 +48,8 @@
 				return '';
 			}
 			$type = $tag['type'];
-			$options = $tag['options'];
-			$values = $tag['values'];
+			$options = (array)$tag['options'];
+			$values = (array)$tag['values'];
 			$wpcf7_contact_form = WPCF7_ContactForm::get_current();
 			
 			$atts = '';
@@ -243,6 +243,10 @@
 		} // end public function parse_field_options
 		
 		public function validation_filter($result, $tag) {
+			$tag_o = $tag;
+			if (is_a($tag, 'WPCF7_FormTag')) {
+				$tag = (array)$tag;
+			}
 			// valiedates field on submit
 			$wpcf7_contact_form = WPCF7_ContactForm::get_current();
 			$type = $tag['type'];
@@ -266,7 +270,7 @@
 				} // end if array && count
 			} // end if set
 			if (!$value_found) {
-				$result->invalidate($tag, wpcf7_get_message('invalid_required'));
+				$result->invalidate($tag_o, wpcf7_get_message('invalid_required'));
 				//$result['valid'] = false;
 				//$result['reason'][$name] = $wpcf7_contact_form->message('invalid_required');
 			}

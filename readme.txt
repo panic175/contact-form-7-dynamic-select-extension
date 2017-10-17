@@ -2,7 +2,7 @@
 Contributors: Hube2, PaNic175
 Tags: contact form 7 dynamic select drop down menu
 Requires at least: 4.0
-Tested up to: 4.7
+Tested up to: 4.8
 Stable tag: version/3.1.2
 Donate link 1: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=hube02%40earthlink%2enet&lc=US&item_name=Donation%20for%20WP%20Plugins%20I%20Use&no_note=0&cn=Add%20special%20instructions%20to%20the%20seller%3a&no_shipping=1&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted
 Donate link 2: https://paypal.me/PatrickNiemann
@@ -110,6 +110,9 @@ For example, a shortcode cannot return an array. A shortcode pretty much require
 
 
 == Changelog ==
+
+= 2.0.2 =
+* corrected to work with CF7 >= 4.8
 
 = 2.0.1 =
 * corrected fatal function call error due to update in CF7
